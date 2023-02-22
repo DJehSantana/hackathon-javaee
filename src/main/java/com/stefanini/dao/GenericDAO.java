@@ -10,27 +10,29 @@ import javax.transaction.Transactional;
 import java.lang.reflect.ParameterizedType;
 import java.util.List;
 
-public class GenericDAO<T, I>  {
+public class GenericDAO<T, I> {
 
     @PersistenceContext(unitName = "PU")
     EntityManager em;
-    
+
     Class<T> clazz;
 
     public GenericDAO() {
-        clazz = ((Class) ((ParameterizedType) getClass().getSuperclass().getGenericSuperclass()).getActualTypeArguments()[0]);
+        clazz = ((Class) ((ParameterizedType) getClass().getSuperclass().getGenericSuperclass())
+                .getActualTypeArguments()[0]);
     }
 
     @Transactional
-    public void save(T t){
+    public T save(T t) {
         em.persist(t);
+        return t;
     }
 
-    public T findById(I id){
+    public T findById(I id) {
         return em.find(clazz, id);
     }
 
-    public List<T> listAll(){
+    public List<T> listAll() {
         CriteriaBuilder builder = em.getCriteriaBuilder();
         CriteriaQuery<T> query = builder.createQuery(clazz);
         query.from(clazz);
@@ -38,12 +40,12 @@ public class GenericDAO<T, I>  {
     }
 
     @Transactional
-    public T update(T t){
+    public T update(T t) {
         return em.merge(t);
     }
 
     @Transactional
-    public void delete(I id){
+    public void delete(I id) {
         T t = findById(id);
         em.remove(t);
     }
