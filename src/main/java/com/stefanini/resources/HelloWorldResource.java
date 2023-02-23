@@ -1,6 +1,7 @@
 package com.stefanini.resources;
 
 import javax.inject.Inject;
+import javax.validation.Valid;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
@@ -26,7 +27,7 @@ public class HelloWorldResource {
 
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response salvarUsuario(Usuario usuario) {
+    public Response salvarUsuario(@Valid Usuario usuario) {
         Usuario usuario2 = usuarioRepository.save(usuario);
 
         return Response.ok(usuario2).status(Response.Status.CREATED).build();
