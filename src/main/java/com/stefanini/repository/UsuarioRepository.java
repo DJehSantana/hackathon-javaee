@@ -11,7 +11,7 @@ import com.stefanini.model.Usuario;
 public class UsuarioRepository extends GenericDAO<Usuario, Long> {
     public Usuario buscarPorLogin(String login) {
         try {
-            return this.createQuery("SELECT u FROM usuario u WHERE u.login = login").setParameter("login", login)
+            return this.createQuery("SELECT u FROM Usuario u WHERE u.login = login").setParameter("login", login)
                     .getSingleResult();
 
         } catch (NoResultException e) {
@@ -20,7 +20,7 @@ public class UsuarioRepository extends GenericDAO<Usuario, Long> {
     }
 
     public List<Usuario> listarPorMesNascimento(int month) {
-        return this.createQuery("SELECT u from usuario u WHERE month(u.dataNascimento) = :month")
+        return this.createQuery("SELECT u from Usuario u WHERE month(u.dataNascimento) = :month")
                 .setParameter("month", month).getResultList();
     }
 }
